@@ -1,0 +1,18 @@
+services:
+  plex-server:
+    container_name: plex-server
+    image: plexinc/pms-docker:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Paris # timezone, defined in .env
+      - HOSTNAME=plex@home
+    network_mode: bridge
+    ports:
+      - 32400:32400
+    volumes:
+      - plex_config:/config # plex database
+      - /mnt/media:/data # media library
+
+volumes:
+  plex_config:
+    name: plex_config
