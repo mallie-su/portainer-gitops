@@ -6,9 +6,6 @@ services:
     environment:
       - TZ=Europe/Paris # timezone, defined in .env
       - HOSTNAME=plex@home
-    network_mode: bridge
-    ports:
-      - 32400:32400
     volumes:
       - plex_config:/config # plex database
       - /mnt/media:/data # media library
