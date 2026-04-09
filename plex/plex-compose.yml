@@ -16,7 +16,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.plex.rule=Host(`plex.sp4rck.ovh`)"
       - "traefik.http.routers.plex.entrypoints=websecure"
-      - "traefik.http.services.plex.loadbalancer.server.port=9000"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
       - "traefik.http.routers.plex.service=plex"
       - "traefik.http.routers.plex.tls.certresolver=leresolver"
 
