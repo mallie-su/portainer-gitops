@@ -8,9 +8,9 @@ services:
       - HOSTNAME=plex@home
     volumes:
       - plex_config:/config # plex database
-      - /mnt/media:/data # media library
-    expose:
-      - "32400"
+      - /mnt/media:/data:ro # media library
+    ports:
+      - 32400:32400
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.plex.rule=Host(`plex.sp4rck.ovh`)"
