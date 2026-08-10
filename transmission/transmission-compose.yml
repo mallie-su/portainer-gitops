@@ -1,0 +1,31 @@
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Athens
+    volumes:
+      - /portainer/Files/AppData/Config/transmission/config:/config
+      - /mnt/media/storage/downloads/tvshows:/downloads
+      - watch:/watch
+      - /etc/localtime:/etc/localtime
+    ports:
+        - 9091
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.transmission.rule=Host(`transmission.sp4rck.ovh`)"
+      - "traefik.http.routers.transmission.entrypoints=websecure"
+      - "traefik.http.services.transmission.loadbalancer.server.port=9091"
+      - "traefik.http.routers.transmission.service=transmission"
+      - "traefik.http.routers.transmission.tls.certresolver=leresolver"
+    restart: unless-stopped
+    networks: 
+      - portainer_default
+volumes:
+  watch:
+networks:
+  portainer_default:
+    name: "portainer_default"
+    external: true
