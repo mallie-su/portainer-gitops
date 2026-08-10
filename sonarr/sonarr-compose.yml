@@ -1,0 +1,30 @@
+services:
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Athens
+    volumes:
+      - /portainer/Files/AppData/Config/sonarr/config:/config
+      - /mnt/media/TVShows:/tv #optional
+      - /mnt/media/storage/downloads/tvshows:/downloads
+      - /mnt/media/temp/blackhole/tvshows:/blackhole
+      - /etc/localtime:/etc/localtime
+    ports:
+        - 8989
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sonarr.rule=Host(`sonarr.sp4rck.ovh`)"
+      - "traefik.http.routers.sonarr.entrypoints=websecure"
+      - "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      - "traefik.http.routers.sonarr.service=sonarr"
+      - "traefik.http.routers.sonarr.tls.certresolver=leresolver"
+    restart: unless-stopped
+    networks: 
+      - portainer_default
+networks:
+  portainer_default:
+    name: "portainer_default"
+    external: true
