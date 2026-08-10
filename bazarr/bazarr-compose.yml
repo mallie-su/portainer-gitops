@@ -1,0 +1,28 @@
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Athens
+    volumes:
+      - /portainer/Files/AppData/Config/bazarr/config:/config
+      - /mnt/media/Movies:/movies #optional
+      - /mnt/media/TVShows:/tv #optional
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bazarr.rule=Host(`bazarr.sp4rck.ovh`)"
+      - "traefik.http.routers.bazarr.entrypoints=websecure"
+      - "traefik.http.services.bazarr.loadbalancer.server.port=6767"
+      - "traefik.http.routers.bazarr.service=bazarr"
+      - "traefik.http.routers.bazarr.tls.certresolver=leresolver"
+    ports:
+      - 6767
+    restart: unless-stopped
+    networks: 
+      - portainer_default
+networks:
+  portainer_default:
+    name: "portainer_default"
+    external: true
