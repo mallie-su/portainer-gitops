@@ -1,0 +1,27 @@
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Athens
+    volumes:
+      - /portainer/Files/AppData/Config/prowlarr/config:/config
+      - /etc/localtime:/etc/localtime
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prowlarr.rule=Host(`prowlarr.sp4rck.ovh`)"
+      - "traefik.http.routers.prowlarr.entrypoints=websecure"
+      - "traefik.http.services.prowlarr.loadbalancer.server.port=9696"
+      - "traefik.http.routers.prowlarr.service=prowlarr"
+      - "traefik.http.routers.prowlarr.tls.certresolver=leresolver"
+    ports:
+      - 9696
+    restart: unless-stopped
+    networks: 
+      - portainer_default
+networks:
+  portainer_default:
+    name: "portainer_default"
+    external: true
