@@ -1,0 +1,25 @@
+name: Renovate
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * */1"
+concurrency: renovate
+jobs:
+  renovate:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Renovate Bot GitHub Action
+        uses: renovatebot/github-action@0b17c4eb901eca44d018fb25744a50a74b2042df # v46.1.4
+        env:
+          RENOVATE_REPOSITORIES: "${{ github.repository }}"
+          RENOVATE_ONBOARDING: "true"
+          RENOVATE_USERNAME: "mallie-su"
+          RENOVATE_GIT_AUTHOR: "Renovate <allie.matthieu@gmail.com>"
+          GITHUB_COM_TOKEN: ${{ secrets.RENOVATE_TOKEN }}
+          LOG_LEVEL: 'debug'
+        with:
+          configurationFile: .github/renovate.js
+          token: ${{ secrets.RENOVATE_TOKEN }}
+          docker-user: 1001
