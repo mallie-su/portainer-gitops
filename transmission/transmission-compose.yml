@@ -1,6 +1,6 @@
 services:
   transmission:
-    image: lscr.io/linuxserver/transmission:latest@sha256:1a12fef3c89eca48b7be9e7d36b17b4eb4e1bcf5e1ee7fbf372e3a38b562939d
+    image: lscr.io/linuxserver/transmission:latest@sha256:55aaeedf9fc354d34136387e15ee0ba4679096f20398dd2875867e5cd5cf8be5
     container_name: transmission
     environment:
       - PUID=1000
